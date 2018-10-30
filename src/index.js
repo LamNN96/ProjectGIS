@@ -84,10 +84,10 @@ $(document).ready(function () {
         let properties = e.target.feature.properties;
         let latlng = e.latlng;
         console.log(latlng)
-        if (marker != null) { // check
-            mymap.removeLayer(marker); // remove
+        if (marker != null) { 
+            mymap.removeLayer(marker); 
         }
-        marker = new L.Marker(latlng); // set
+        marker = new L.Marker(latlng); 
         marker.addTo(mymap);
         getInfo(latlng.lat, latlng.lng, (data) => {
             console.log(data)
@@ -135,6 +135,24 @@ $(document).ready(function () {
         ctlSidebar.toggle();
     }).addTo(mymap);
 
+    function onMapClick(e) {
+        ctlSidebar.show();
+        let latlng = e.latlng;
+        console.log(latlng)
+        if (marker != null) { 
+            mymap.removeLayer(marker); 
+        }
+        marker = new L.Marker(latlng); 
+        marker.addTo(mymap);
+        getInfo(latlng.lat, latlng.lng, (data) => {
+            console.log(data)
+            document.getElementById("soilDetail").innerHTML = data.data.kieu;
+            document.getElementById("locationDetail").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
+        });
+
+    }
+    
+    mymap.on('click', onMapClick);
 
 });
 
