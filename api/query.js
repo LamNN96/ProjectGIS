@@ -2,7 +2,8 @@ const db = require('../utils/connect')
 
 
 function getInfo(lat, lng, callback) {
-    db.query(`SELECT ten, gid, danso, vote1, vote2 FROM vietnam_provinces where st_contains(geom, ST_GeomFromText('POINT(${lng} ${lat})'))`, (err, res) => {
+    db.query(`SELECT * from  vnm_adm2, tho_nhuong where st_contains(vnm_adm2.geom, ST_GeomFromText('POINT(${lng} ${lat})')) and ST_Overlaps(vnm_adm2.geom, tho_nhuong.geom) limit 1`, (err, res) => {
+        
         callback(err, res)
       })
 }

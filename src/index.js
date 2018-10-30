@@ -1,25 +1,34 @@
 var mymap;
 var lyrOSM;
 
+var lyrImagery;
+var lyrVoyaer;
+var mrkCurrentLocation;
+var fgpDrawnItems;
+var ctlAttribute;
+var ctlScale;
+var ctlMouseposition;
+var ctlMeasure;
+var ctlEasybutton;
+var ctlSidebar;
+var ctlLayers;
+var ctlDraw;
+var ctlStyle;
+var objBasemaps;
+var objOverlays;
+var icnRedSprite;
+var icnVioletSprite;
+var icnLAMtree;
+var icnLAMbird;
+var icnMKTree;
+var icnMKBird;
+var icnEagleActive;
+var icnEagleInactive;
+var preMakerLatLng;
+
 $(document).ready(function () {
-    mymap = L.map('map123', { center: [16.69, 106.92], zoom: 5.5 });
-    // lyrOSM = L.geoJson(vietnam);
-    // mymap.addLayer(lyrOSM); 
-
-    //Tao va add Map from GeoServer
-    // var wmsLayer = L.tileLayer.wms("http://localhost:8080/geoserver/Maps/wms", {
-    //     layers: 'Maps:vnm_adm1',
-    //     format: 'image/png',
-    //     transparent: true,
-    //     attribution: "Hydropower of Vietnam"
-    // }).addTo(mymap);
-
-    // var hpLayer = L.tileLayer.wms("http://localhost:8080/geoserver/Maps/wms", {
-    //     layers: 'Maps:hydropower_dams',
-    //     format: 'image/png',
-    //     transparent: true
-    // }).addTo(mymap);
-
+    mymap = L.map('map123', { center: [22, 105], zoom: 7.5 });
+    
     function style(feature) {
         return {
             fillColor: getColor(feature.properties.domsoil),
@@ -31,22 +40,93 @@ $(document).ready(function () {
         };
     }
 
+    lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
 
+    lyrVoyaer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+    });
+    lyrVoyaer.addTo(mymap)
+    objBasemaps = {
+        "Imagery": lyrImagery,
+        "Voyaer": lyrVoyaer
+    };
     getGeoJSON((data) => {
-        lyrOSM = L.geoJson(data, {
+        console.log(data)
+        lyrGEO = L.geoJson(data, {
             style: style,
             onEachFeature: function (feature, layer) {
-                layer.bindPopup(feature.properties.kieu);
+                layer.on({
+                    mouseover: onMouseOver,
+                    click: onClickFeature,
+                    mouseOut: onMouseOut
+                })
             }
         });
-        mymap.addLayer(lyrOSM);
+
+        objOverlays = {
+            "Tho Nhuong": lyrGEO,
+        };
+
+        L.control.layers(objBasemaps, objOverlays).addTo(mymap);
     })
-    //  var baseLayer = {"Base" : [wmsLayer, hpLayer]};
 
-    // L.control.layers(baseLayer, lyrOSM).addTo(mymap);
-    // hpLayer.on('click', onMapClick);
+    function onMouseOver(e) {
+
+    }
+    function onMouseOut(e) {
+        console.log("M out ", e)
+    }
+    var marker;
+    function onClickFeature(e) {
+        ctlSidebar.show();
+        let properties = e.target.feature.properties;
+        let latlng = e.latlng;
+        console.log(latlng)
+        if (marker != null) { // check
+            mymap.removeLayer(marker); // remove
+        }
+        marker = new L.Marker(latlng); // set
+        marker.addTo(mymap);
+        getInfo(latlng.lat, latlng.lng, (data) => {
+            console.log(data)
+            document.getElementById("soilDetail").innerHTML = data.data.kieu;
+            document.getElementById("locationDetail").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
+        });
+
+        preMakerLatLng = latlng;
+    }
 
 
+
+
+    mymap.on('draw:created', function (e) {
+        fgpDrawnItems.addLayer(e.layer);
+    });
+
+    mymap.on('locationfound', function (e) {
+        console.log(e.latlng);
+        if (mrkCurrentLocation) {
+            mrkCurrentLocation.remove();
+        }
+
+        getInfo(e.latlng.lat, e.latlng.lng, (data) => {
+            console.log(data)
+            document.getElementById("locationDetail").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
+        })
+        mrkCurrentLocation = L.circle(e.latlng, { radius: e.accuracy / 2 }).addTo(mymap);
+        mymap.setView(e.latlng, 10);
+    });
+
+    mymap.on('locationerror', function (e) {
+        console.log(e);
+        alert("Location was not found");
+    })
+
+    $("#btnLocate").click(function () {
+        mymap.locate();
+    });
 
     //side bar
     var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
@@ -54,15 +134,6 @@ $(document).ready(function () {
     var ctlEasybutton = L.easyButton('glyphicon-transfer', function () {
         ctlSidebar.toggle();
     }).addTo(mymap);
-
-    // var popup = L.popup();
-
-    // function onMapClick(e) {
-    //     popup
-    //         .setLatLng(e.latlng)
-    //         .setContent("You clicked the map at " + e.latlng.toString())
-    //         .openOn(mymap);
-    // }
 
 
 });

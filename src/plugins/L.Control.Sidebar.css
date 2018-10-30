@@ -80,7 +80,7 @@
       .leaflet-sidebar.right.visible ~ .leaflet-right {
         right: 460px; } }
   .leaflet-sidebar .close {
-    position: absolute;
+    /* position: absolute; */
     right: 20px;
     top: 20px;
     width: 31px;
