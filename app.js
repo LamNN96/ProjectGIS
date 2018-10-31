@@ -3,9 +3,17 @@ var path = require("path")
 var fs = require("fs")
 var router = require('./api/router')
 var app = express();
+var bodyParser = require('body-parser');
 let port = 8888;
 
 app.use(express.static(path.join(__dirname, 'src')));
+
+app.use(bodyParser.json());       
+app.use(bodyParser.urlencoded({   
+    extended: true
+}));
+app.use(bodyParser.json({ extended : true}));
+app.use(bodyParser.urlencoded({ extended : true}));
 
 app.get('/', function (req, res) {
     res.writeHead(200, {"Content-Type" : "text/html"});

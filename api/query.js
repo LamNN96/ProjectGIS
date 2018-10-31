@@ -7,5 +7,11 @@ function getInfo(lat, lng, callback) {
       })
 }
 
+function login(login, password, callback) {
+    console.log(login, password)
+    db.query(`select users.* from User where users.login like '${login}' and users.password like '${password}'`, (err, res) => {
+		callback(err, res)
+	})
+}
 
-module.exports = {getInfo}
+module.exports = {getInfo, login}

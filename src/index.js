@@ -2,7 +2,10 @@ var mymap;
 var lyrOSM;
 
 $(document).ready(function () {
-    mymap = L.map('map123', { center: [16.69, 106.92], zoom: 5.5 });
+    mymap = L.map('map123', {
+        center: [16.69, 106.92],
+        zoom: 5.5
+    });
     // lyrOSM = L.geoJson(vietnam);
     // mymap.addLayer(lyrOSM); 
 
@@ -70,50 +73,100 @@ $(document).ready(function () {
 function getColor(domsoil) {
     switch (domsoil) {
         //Đất xám bạc màu trên đá trầm tích và đá biến chất
-        case "Ao": return "#d7e9f2";
+        case "Ao":
+            return "#d7e9f2";
 
-        //"faosoil": "Af63-3c", "kieu": "Đất xám bạc màu nâu đỏ"
-        case "Af": return "#b59884";
+            //"faosoil": "Af63-3c", "kieu": "Đất xám bạc màu nâu đỏ"
+        case "Af":
+            return "#b59884";
 
-        //Đất phù sa phì nhiêu
-        case "Je": return "#61b8dd";
+            //Đất phù sa phì nhiêu
+        case "Je":
+            return "#61b8dd";
 
-        //Đất sét giàu dinh dưỡng phì nhiêu
-        case "Ge": return "#546bdd";
+            //Đất sét giàu dinh dưỡng phì nhiêu
+        case "Ge":
+            return "#546bdd";
 
-        //", "kieu": "Đất nứt nẻ, khô hạn
-        case "Vp": return "#f7ef07";
+            //", "kieu": "Đất nứt nẻ, khô hạn
+        case "Vp":
+            return "#f7ef07";
 
-        //"faosoil": "Gd29-3a", "kieu": "Đất sét than bùn"
-        case "Gd": return "#443f39";
+            //"faosoil": "Gd29-3a", "kieu": "Đất sét than bùn"
+        case "Gd":
+            return "#443f39";
 
-        //"faosoil": "I-Af-3c", "kieu": "Đất núi đa"
-        case "I": return "#d6821d";
+            //"faosoil": "I-Af-3c", "kieu": "Đất núi đa"
+        case "I":
+            return "#d6821d";
 
-        // "Ag17-1\/2ab", "kieu": "Đất xám bạc màu phiến sét" 
-        case "Ag": return "#d6571d";
+            // "Ag17-1\/2ab", "kieu": "Đất xám bạc màu phiến sét" 
+        case "Ag":
+            return "#d6571d";
 
-        //"faosoil": "Jt13-3a", "kieu": "Đất phù sa nước lợ mặn" 
-        case "Jt": return "#876dce";
+            //"faosoil": "Jt13-3a", "kieu": "Đất phù sa nước lợ mặn" 
+        case "Jt":
+            return "#876dce";
 
-        //"faosoil": "Re83-1ab", "kieu": "Đất cát pha" 
-        case "Re": return "#ccc56a";
+            //"faosoil": "Re83-1ab", "kieu": "Đất cát pha" 
+        case "Re":
+            return "#ccc56a";
 
-        //"faosoil": "Lc100-c", "kieu": "Đất nâu đen phát triển trên đá bazan, núi lửa"
-        case "Lc": return "#54422d";
+            //"faosoil": "Lc100-c", "kieu": "Đất nâu đen phát triển trên đá bazan, núi lửa"
+        case "Lc":
+            return "#54422d";
 
-        //"faosoil": "Fr33-3ab", "kieu": "Đất nâu đỏ trên đá bazan"
-        case "Fr": return "#703d02";
+            //"faosoil": "Fr33-3ab", "kieu": "Đất nâu đỏ trên đá bazan"
+        case "Fr":
+            return "#703d02";
 
-        //"faosoil": "Fa14-3ab", "kieu": "Đất nâu đỏ khô hạn"
-        case "Fa": return "#a38004";
+            //"faosoil": "Fa14-3ab", "kieu": "Đất nâu đỏ khô hạn"
+        case "Fa":
+            return "#a38004";
 
-        //"domsoil": "Od", "faosoil": "Od21-a", "kieu": "Đất hữa cơ"
-        case "Od": return "#06e5cb";
+            //"domsoil": "Od", "faosoil": "Od21-a", "kieu": "Đất hữa cơ"
+        case "Od":
+            return "#06e5cb";
 
-        // "domsoil": "Fo", "faosoil": "Fo102-3ab", "kieu": "Đất nâu đỏ trên đá quartz"
-        case "Fo": return "#f20438";
+            // "domsoil": "Fo", "faosoil": "Fo102-3ab", "kieu": "Đất nâu đỏ trên đá quartz"
+        case "Fo":
+            return "#f20438";
 
-        default: return "#000000";
+        default:
+            return "#000000";
     }
+}
+
+$("#login , #password").on("keypress", function (e) {
+    if (e.which == 13)
+        $("#btnLogin").click();
+})
+
+$('#btnDangXuat').click(function () {
+    localStorage.setItem("logged", false)
+    $('#divLogin').fadeIn(500);
+    $('#divIndex').fadeOut(500);
+})
+
+let isLogged = localStorage.getItem('logged')
+if (isLogged == true) {
+    $('#divLogin').fadeOut(500);
+    $('#divIndex').fadeIn(800);
+} else {
+    $('#divLogin').fadeIn(500);
+    $('#divIndex').fadeOut(500);
+    $("#btnLogin").click(function () {
+        login($("#login").val(), $("#password").val(), (data) => {
+            if ($("#login").val() == 'undefined' && $("#password").val() == 'undefined') {
+                alert(data.data)
+                alert("Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin")
+            } else {
+                // alert(data.data.login)
+                localStorage.setItem('logged', true)
+
+                $('#divLogin').fadeOut(500);
+                $('#divIndex').fadeIn(800);
+            }
+        })
+    })
 }

@@ -33,22 +33,42 @@
 </head>
 
 <body>
-    <h1 style="text-align: center; padding: 5vh 5vh 5vh 5vh">BẢN ĐỒ KHUYẾN NÔNG VIỆT NAM </h1>
-
-    <div class="col-md-5">
-        <div class="row">
-            <div id="side-bar" class="col-md-2">
-                <button id='btnLocate' class='btn btn-primary btn-block'>Locate</button><br>
+    <div id="divLogin" class="row" style="display: block;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" style="text-align: center;">
+            <div class="row">
+                <label for="login" style="margin-bottom: 1%"> Tài khoản: </label> <br>
+                <input type="text" class="form-control" id="login" style="margin-bottom: 1%; text-align: center">
+                <br>
+                <label for="password" style="margin-bottom: 1%"> Mật khẩu: </label> <br>
+                <input type="password" id="password" class="form-control" style="margin-bottom: 1%; text-align: center">
+                <br>
+                <button class="btn btn-primary" id="btnLogin" style="margin-right: 5%"> Đăng nhập </button>
+                <button class="btn btn-primary" id="btnSignup"> Đăng ký </button>
             </div>
         </div>
-        <div id="map123"></div>
+        <div class="col-md-4"></div>
     </div>
-    <div class="col-md-7" id="container">
-        <div class="topnav">
-            <a class="active" href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-            <input type="text" placeholder="Search..">
+
+    <div id="divIndex" class="row" style="padding: 2%; display: none;">
+        <button id="btnDangXuat" class="btn btn-danger">Đăng xuất</button>
+        <h1 style="text-align: center; padding: 5vh 5vh 5vh 5vh">BẢN ĐỒ KHUYẾN NÔNG VIỆT NAM </h1>
+
+        <div class="col-md-5">
+            <div class="row">
+                <div id="side-bar" class="col-md-2">
+                    <button id='btnLocate' class='btn btn-primary btn-block'>Locate</button><br>
+                </div>
+            </div>
+            <div id="map123"></div>
+        </div>
+        <div class="col-md-7" id="container">
+            <div class="topnav">
+                <a class="active" href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <input type="text" placeholder="Search..">
+            </div>
         </div>
     </div>
     </div>
