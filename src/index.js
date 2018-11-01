@@ -27,6 +27,8 @@ var icnEagleInactive;
 var preMakerLatLng;
 
 $(document).ready(function () {
+    if(localStorage.getItem('login') == 'false')
+        window.location.href = '/'
     mymap = L.map('map123', { center: [22, 105], zoom: 7.5 });
     
     function style(feature) {
