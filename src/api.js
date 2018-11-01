@@ -30,11 +30,11 @@ function getInfo(lat, lng, callback) {
 
 
 
-function getCrop(domsoil, callback) {
+function getCrop(soil_id, callback) {
     let configs = {
         "async": true,
         "crossDomain": true,
-        "url": `/getCrop?soil_id=${domsoil}`,
+        "url": `/getCrop?soil_id=${soil_id}`,
         "method": "GET"
     }
 

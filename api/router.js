@@ -22,14 +22,14 @@ router.get('/getInfo', async (req, res) => {
 });
 
 router.get('/getCrop', async (req, res)=>{
+    console.log(req.query.soil_id)
     let soil_id = req.query.soil_id
-    console.log(soil_id)
     query.getCrop(soil_id, (err, data) => {
         if (err) {
             res.json({success: false, error : err})
-            console.log(res)
+           console.log("Fail")
         } else {
-            console.log(data)
+          console.log("OK")
             res.json({
                 success: true,
                 data: data.rows[0]
