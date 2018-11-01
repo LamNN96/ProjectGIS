@@ -7,7 +7,7 @@ $(document).ready(function () {
             }
             else
             {
-                window.location.href = '/'
+                window.location.href = '/index'
             }
         })
     })
