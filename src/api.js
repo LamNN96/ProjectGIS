@@ -27,3 +27,20 @@ function getInfo(lat, lng, callback) {
         callback({ success: false, error: "Mất kết nói với máy chủ. Vui lòng thử lại." });
     });
 }
+
+
+
+function getCrop(domsoil, callback) {
+    let configs = {
+        "async": true,
+        "crossDomain": true,
+        "url": `/getCrop?soil_id=${domsoil}`,
+        "method": "GET"
+    }
+
+    $.ajax(configs).done((result) => {
+        callback(result)
+    }).fail((err) => {
+        callback({ success: false, error: "Mất kết nói với máy chủ. Vui lòng thử lại." });
+    });
+}

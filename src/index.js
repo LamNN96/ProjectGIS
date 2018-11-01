@@ -106,17 +106,9 @@ $(document).ready(function () {
     });
 
     mymap.on('locationfound', function (e) {
-        console.log(e.latlng);
-        if (mrkCurrentLocation) {
-            mrkCurrentLocation.remove();
-        }
-
-        getInfo(e.latlng.lat, e.latlng.lng, (data) => {
-            console.log(data)
-            document.getElementById("locationDetail").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
-        })
-        mrkCurrentLocation = L.circle(e.latlng, { radius: e.accuracy / 2 }).addTo(mymap);
-        mymap.setView(e.latlng, 10);
+        onMapClick(e);
+        var mrkCurrentLocation = L.circle(e.latlng, { radius: e.accuracy / 2 }).addTo(mymap);
+        mymap.setView(e.latlng, 15);
     });
 
     mymap.on('locationerror', function (e) {
@@ -138,16 +130,20 @@ $(document).ready(function () {
     function onMapClick(e) {
         ctlSidebar.show();
         let latlng = e.latlng;
-        console.log(latlng)
+        var crops = [];
         if (marker != null) { 
             mymap.removeLayer(marker); 
         }
         marker = new L.Marker(latlng); 
         marker.addTo(mymap);
         getInfo(latlng.lat, latlng.lng, (data) => {
-            console.log(data)
+            console.log(data.data)
             document.getElementById("soilDetail").innerHTML = data.data.kieu;
             document.getElementById("locationDetail").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
+            getCrop(data.data.domsoil, (cropsData)=>{
+                console.log(cropsData.data)
+            })
+            // document.getElementById("crops").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
         });
 
     }
