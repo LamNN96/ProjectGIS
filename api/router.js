@@ -42,13 +42,10 @@ router.post('/login', async (req, res) => {
 
 router.get('/getCrop', async (req, res)=>{
     let soil_id = req.query.soil_id
-    console.log(soil_id)
     query.getCrop(soil_id, (err, data) => {
         if (err) {
             res.json({success: false, error : err})
-            console.log(res)
         } else {
-            console.log(data)
             res.json({
                 success: true,
                 data: data.rows[0]

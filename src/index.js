@@ -120,7 +120,6 @@ $(document).ready(function () {
         mymap.locate();
     });
 
-    //side bar
     var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
 
     var ctlEasybutton = L.easyButton('glyphicon-transfer', function () {
@@ -137,13 +136,11 @@ $(document).ready(function () {
         marker = new L.Marker(latlng); 
         marker.addTo(mymap);
         getInfo(latlng.lat, latlng.lng, (data) => {
-            console.log(data.data)
             document.getElementById("soilDetail").innerHTML = data.data.kieu;
             document.getElementById("locationDetail").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
             getCrop(data.data.domsoil, (cropsData)=>{
-                console.log(cropsData.data)
+                document.getElementById("crops").innerHTML = cropsData.data.name;
             })
-            // document.getElementById("crops").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
         });
 
     }

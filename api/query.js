@@ -10,7 +10,7 @@ function getInfo(lat, lng, callback) {
 function getCrop(soil_id, callback) {
     db.query(`SELECT * from crop, crop_detail, soil_detail 
                 where soil_detail.crops = crop_detail.id 
-                and crop_detail.id_crop = crop.id_crop and domsoil = ${soil_id}`
+                and crop_detail.id_crop = crop.id_crop and domsoil = '${soil_id}'`
         , (err, res) => {
             callback(err, res)
         })
@@ -18,7 +18,6 @@ function getCrop(soil_id, callback) {
 
 function login(username, password, callback) {
     db.query(`SELECT * from users where users.username like '${username}' and users.password like '${password}'`, (err, res) => {
-        console.log(err)
         callback(err, res)
     })
 }
