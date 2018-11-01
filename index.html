@@ -94,15 +94,66 @@
                         <h4 class="list-group-item-heading">Cây trồng phù hợp</h4>
                         <p class="list-group-item-text" id="crops"></p>
                     </div>
-                    
+                    <div class="col-md-12" style="margin-top: 10px;background-color: rgb(238, 220, 160); height : 2px">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="" id="label">Lọc thông tin</label>
+                        <div id="filter">
+                            <table>
+                                <tr>
+                                    <td style="padding-right: 10px; font-size: 15px">Loại cây</td>
+                                    <td style="padding-bottom: 10px; font-size: 15px">
+                                        <input type="text" class="form-control search" placeholder="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-right: 10px; font-size: 15px">Sản lượng</td>
+                                    <td>
+                                        <input type="text" class="form-control search" placeholder="">
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <button id='btnFilter' class='btn btn-warning'>Lọc</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top: 10px;background-color: rgb(238, 220, 160); height : 2px">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="" id="label">Thông tin địa điểm</label>
+                            <div id="marker">
+                                <table>
+                                    <tr>
+                                        <td style="padding-right: 10px; font-size: 15px">Tên điểm</td>
+                                        <td style="padding-bottom: 10px; font-size: 15px">
+                                            <input type="text" class="form-control search" placeholder="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-right: 10px; font-size: 15px">Loại cây</td>
+                                        <td style="padding-bottom: 10px; font-size: 15px">
+                                            <input type="text" class="form-control search" placeholder="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-right: 10px; font-size: 15px">Sản lượng</td>
+                                        <td>
+                                            <input type="text" class="form-control search" placeholder="">
+                                        </td>
+                                    </tr>
+    
+                                </table>
+                                <div id="buttonContainer">
+                                    <button id='btnDelMarker' class='btn btn-danger'>Xóa </button>
+                                    <button id='btnAddMarker' class='btn btn-success'>Thêm </button>
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div id="map123" class="my-map col-md-12">
                 </div>
 
-                <div class="row">
-                    <div id="results" class="col-md-12">
-                    </div>
-                </div>
+
 
             </div>
         </div>
