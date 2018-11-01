@@ -27,7 +27,36 @@ function getInfo(lat, lng, callback) {
         callback({ success: false, error: "Mất kết nói với máy chủ. Vui lòng thử lại." });
     });
 }
+function getMarker(lat, lng, callback) {
+    let configs = {
+        "async": true,
+        "crossDomain": true,
+        "url": `/getMarker?lat=${lat}&lng=${lng}`,
+        "method": "GET"
+    }
 
+    $.ajax(configs).done((result) => {
+        callback(result)
+    }).fail((err) => {
+        callback({ success: false, error: "Mất kết nói với máy chủ. Vui lòng thử lại." });
+    });
+}
+
+
+function getAllMarkers(callback) {
+    let configs = {
+        "async": true,
+        "crossDomain": true,
+        "url": `/getAllMarkers`,
+        "method": "GET"
+    }
+
+    $.ajax(configs).done((result) => {
+        callback(result)
+    }).fail((err) => {
+        callback({ success: false, error: "Mất kết nói với máy chủ. Vui lòng thử lại." });
+    });
+}
 
 
 function getCrop(soil_id, callback) {
@@ -45,7 +74,7 @@ function getCrop(soil_id, callback) {
     });
 }
 
-function getAllCrop( callback) {
+function getAllCrop(callback) {
     let configs = {
         "async": true,
         "crossDomain": true,
@@ -59,6 +88,7 @@ function getAllCrop( callback) {
         callback({ success: false, error: "Mất kết nói với máy chủ. Vui lòng thử lại." });
     });
 }
+
 function filter(id_crop, sl, callback) {
     let configs = {
         "async": true,
@@ -74,7 +104,7 @@ function filter(id_crop, sl, callback) {
     });
 }
 
-function login(name, crop, sl, callback) {
+function addMarker(id_user, id_crop, sanluong, id_donvi, name, lat, lng, callback) {
     let settings = {
         "async": true,
         "crossDomain": true,
@@ -84,9 +114,13 @@ function login(name, crop, sl, callback) {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         "data": {
-            "name": name,
-            "crop": crop,
-            "sl": sl
+            "id_user": id_user,
+            "id_crop": id_crop,
+            "name": name + "",
+            "id_donvi": id_donvi,
+            "lat": lat,
+            "lng": lng,
+            "sanluong": sanluong
         }
     }
 
@@ -94,22 +128,25 @@ function login(name, crop, sl, callback) {
         .done((result) => {
             callback(result)
         }).fail((err) => {
+            console.log("api err", err)
             callback({ success: false, error: "Lỗi kết nối Internet.Vui lòng thử lại" });
         });
 }
 
-function login(username, password, callback) {
+function updateMarker(id, name, id_crop, sanluong, callback) {
     let settings = {
         "async": true,
         "crossDomain": true,
-        "url": "/login",
+        "url": "/updateMarker",
         "method": "POST",
         "headers": {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         "data": {
-            "username": username,
-            "password": password
+            "id": id,
+            "id_crop": id_crop,
+            "name": name + "",
+            "sanluong": sanluong
         }
     }
 
@@ -117,6 +154,8 @@ function login(username, password, callback) {
         .done((result) => {
             callback(result)
         }).fail((err) => {
+            console.log("api err", err)
             callback({ success: false, error: "Lỗi kết nối Internet.Vui lòng thử lại" });
         });
 }
+

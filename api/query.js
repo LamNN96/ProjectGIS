@@ -16,24 +16,39 @@ function getCrop(soil_id, callback) {
         })
 }
 
-function getAllCrop(callback){
-    db.query(`SELECT * from crop`, (err, res) =>{
+function getAllCrop(callback) {
+    db.query(`SELECT * from crop`, (err, res) => {
         callback(err, res);
     })
 }
 
-function login(username, password, callback) {
-    db.query(`SELECT * from users where users.username like '${username}' and users.password like '${password}'`, (err, res) => {
-        callback(err, res)
+function getAllMarkers(callback) {
+    db.query(`SELECT * from marker`, (err, res) => {
+        callback(err, res);
     })
 }
-function addMarker(name, crop, sl, callback) {
-    db.query(`SELECT * from users where users.username like '${username}' and users.password like '${password}'`, (err, res) => {
+function getMarker(lat, lng, callback) {
+    db.query(`SELECT * from marker where lat = ${lat} and lng = ${lng}`, (err, res) => {
+        callback(err, res);
+    })
+}
+function addMarker(id_user, id_crop, sanluong, id_donvi, name, lat, lng, callback) {
+    console.log(name)
+    db.query(`insert into marker(id, id_user, id_crop, sanluong, id_donvi, name_marker, lat, lng) 
+    VALUES (DEFAULT, ${id_user}, ${id_crop}, ${sanluong}, ${id_donvi}, '${name}',${lat}, ${lng})`, (err, res) => {
+            console.log("Query err", res)
+            callback(err, res)
+        })
+}
+function updateMarker(id, name, id_crop, sanluong, callback) {
+    console.log(name)
+    db.query(`update marker set id_crop = ${id_crop}, name_marker = '${name}', sanluong = ${sanluong} where id = ${id}`, (err, res) => {
+        console.log("Qerry err", err)
         callback(err, res)
     })
 }
 function filter(id_crop, sl, callback) {
-    db.query(`select * from marker where id_crop = ${id_crop} and sanluong > ${sl}`, (err, res) => {
+    db.query(`select * from marker where id_crop = ${id_crop} and sanluong >= ${sl}`, (err, res) => {
         callback(err, res)
     })
 }
@@ -42,4 +57,4 @@ function filter(id_crop, sl, callback) {
 
 
 
-module.exports = { getInfo, getCrop, login, getAllCrop, addMarker, filter}
+module.exports = { getInfo, getCrop, getAllCrop, addMarker, filter, getAllMarkers, getMarker, updateMarker }

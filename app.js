@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({ extended : true}));
 app.use(bodyParser.urlencoded({ extended : true}));
 
-app.get('/index', function (req, res) {
+app.get('/', function (req, res) {
     res.writeHead(200, { "Content-Type": "text/html" });
     fs.readFile('./index.html', null, function (error, data) {
         if (error) {
@@ -26,17 +26,7 @@ app.get('/index', function (req, res) {
     })
 })
 
-app.get('/', function (req, res) {
-    res.writeHead(200, { "Content-Type": "text/html" });
-    fs.readFile('./login.html', null, function (error, data) {
-        if (error) {
-            res.writeHead(404)
-            res.write("Page not found.")
-        }
-        else res.write(data);
-        res.end();
-    })
-})
+
 
 app.use('/', router);
 

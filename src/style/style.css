@@ -7,7 +7,7 @@
 }
 #btnLocate{
     font-size: 20px;
-    margin-left: 10px;
+    margin-bottom: 10px;
 }
 #btnFilter {
     font-size: 14px;
@@ -15,6 +15,14 @@
     margin-bottom: 10px;
     padding-left: 20px;
     padding-right: 20px;
+}
+#title {
+    text-transform: uppercase;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: darkgoldenrod;
+    letter-spacing: 1px;
 }
 
 td {
@@ -24,7 +32,7 @@ td {
 }
 
 #filter{
-    margin-top: 20px
+    margin-top: 10px
 }
 #ddCrops{
     width: -webkit-fill-available;
@@ -45,21 +53,26 @@ td {
     font-size: 16px; 
 }
 #marker{
-    margin-top: 20px
+    margin-top: 10px
 }
 
 #btnAddMarker{
     margin-left: 60px;
     font-size: 14px;
     margin-top: 10px;
-    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#btnUpdateMarker{
+    margin-left: 60px;
+    font-size: 14px;
+    margin-top: 10px;
     padding-left: 20px;
     padding-right: 20px;
 }
 #btnDelMarker{
     font-size: 14px;
     margin-top: 10px;
-    margin-bottom: 10px;
     padding-left: 20px;
     padding-right: 20px;
 }

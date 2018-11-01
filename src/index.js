@@ -1,6 +1,6 @@
 var mymap;
 var lyrOSM;
-
+var lyrMarker;
 var lyrImagery;
 var lyrVoyaer;
 var mrkCurrentLocation;
@@ -37,6 +37,7 @@ var markerToCreate = {
 }
 var crops;
 $(document).ready(function () {
+    $("#btnUpdateMarker").hide();
     if (localStorage.getItem('login') == 'false')
         window.location.href = '/'
     mymap = L.map('map123', { center: [22, 105], zoom: 7.5 });
@@ -64,6 +65,35 @@ $(document).ready(function () {
         "Imagery": lyrImagery,
         "Voyaer": lyrVoyaer
     };
+    lyrMarker = L.featureGroup();
+    getAllMarkers((res) => {
+        let markers = res.data;
+        markers.forEach(marker => {
+            L.marker([marker.lat, marker.lng]).addTo(lyrMarker).on("click", function (e) {
+                ctlSidebar.show();
+                // console.log(e.latlng);
+                getMarker(e.latlng.lat, e.latlng.lng, (res) => {
+                    document.getElementById("inputName").value = res.data.name_marker;
+                    document.getElementById("inputSL").value = res.data.sanluong;
+                    $("#ddCrops").val(res.data.id_crop);
+                    $("#btnAddMarker").hide();
+                    $("#btnUpdateMarker").show();
+                    $("#btnUpdateMarker").click(function () {
+                        console.log(res.data);
+                        let name = $("#inputName").val();
+                        let id_crop = $("#ddCrops").find(":selected")[0].value;
+                        let sanluong = $("#inputSL").val();
+                        updateMarker(res.data.id, name, id_crop, sanluong, (res) => {
+                            if (res.success == true) {
+                                alert("Sửa địa điểm thành công!")
+                            }
+                        })
+                    })
+                })
+            })
+
+        });
+    });
     getGeoJSON((data) => {
         lyrGEO = L.geoJson(data, {
             style: style,
@@ -78,6 +108,7 @@ $(document).ready(function () {
 
         objOverlays = {
             "Tho Nhuong": lyrGEO,
+            "Dia diem": lyrMarker
         };
 
         L.control.layers(objBasemaps, objOverlays).addTo(mymap);
@@ -147,6 +178,9 @@ $(document).ready(function () {
     mymap.on('click', onMapClick);
     currentLayerGroup = L.featureGroup();
     currentLayerGroup.addTo(mymap);
+
+
+
     getAllCrop((res) => {
 
         crops = res.data;
@@ -175,6 +209,9 @@ $(document).ready(function () {
         //hàm xử lý sự kiện click nút Lọc
         $("#btnFilter").click(function () {
             //lấy giá trị của dropdown
+            if (marker != null) {
+                mymap.removeLayer(marker);
+            }
             var id_crop = $("#ddCropsFilter").find(":selected")[0].value;
             var sanLuong = $("#inputFilterSL").val();
 
@@ -186,18 +223,57 @@ $(document).ready(function () {
 
                 var markers = res.data;
                 markers.forEach(marker => {
-                    L.marker([marker.lat, marker.lng]).addTo(currentLayerGroup);
+                    L.marker([marker.lat, marker.lng]).addTo(currentLayerGroup).on("click", function (e) {
+                        // console.log(e.latlng);
+                        getMarker(e.latlng.lat, e.latlng.lng, (res) => {
+                            document.getElementById("inputName").value = res.data.name_marker;
+                            document.getElementById("inputSL").value = res.data.sanluong;
+                            $("#ddCrops").val(res.data.id_crop);
+                            $("#btnAddMarker").hide();
+                            $("#btnUpdateMarker").show();
+                            $("#btnUpdateMarker").click(function () {
+                                console.log(res.data);
+                                let name = $("#inputName").val();
+                                let id_crop = $("#ddCrops").find(":selected")[0].value;
+                                let sanluong = $("#inputSL").val();
+                                updateMarker(res.data.id, name, id_crop, sanluong, (res) => {
+                                    if (res.success == true) {
+                                        alert("Sửa địa điểm thành công!")
+                                    }
+                                })
+                            })
+                        })
+                    })
+
                 });
-            })
-
+            });
         })
-    });
 
-    $("#btnAddMarker").click(function () {
-        console.log($("#inputName").val())
-        markerToCreate.name = $("#inputName").val();
-        console.log(markerToCreate)
     })
+});
+
+$("#btnAddMarker").click(function () {
+    markerToCreate.name = $("#inputName").val();
+    markerToCreate.id_crop = $("#ddCrops").find(":selected")[0].value;
+    markerToCreate.sanluong = $("#inputSL").val();
+    markerToCreate.don_vi = 1;
+    markerToCreate.id_user = 1;
+    console.log(markerToCreate)
+    addMarker(markerToCreate.id_user, markerToCreate.id_crop,
+        markerToCreate.sanluong, markerToCreate.don_vi,
+        markerToCreate.name, markerToCreate.lat,
+        markerToCreate.lng, (res) => {
+            console.log(res.success)
+            if (res.success == true) {
+                console.log('OK');
+                document.getElementById("inputName").value = "";
+                document.getElementById("inputSL").value = 0;
+                $("#ddCrops").val("1");
+                // $("#inputSL").val() = 0;
+                alert("Thêm địa điểm thành công!")
+            }
+        }
+    );
 });
 
 function getColor(domsoil) {

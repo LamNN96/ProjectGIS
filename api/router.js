@@ -20,12 +20,11 @@ router.get('/getInfo', async (req, res) => {
         }
     })
 });
+router.get('/getMarker', async (req, res) => {
+    let lat = req.query.lat
+    let lng = req.query.lng
 
-router.post('/login', async (req, res) => {
-    let username = req.body.username
-    let password = req.body.password
-
-    query.login(username, password, (err, data) => {
+    query.getMarker(lat, lng, (err, data) => {
         if(err)
             res.json({success: false, error : err})
         else
@@ -39,17 +38,57 @@ router.post('/login', async (req, res) => {
     })
 });
 
-router.post('/marker', async (req, res) => {
-    let name = req.body.name
-    let crop = req.body.crop
-    let sl = req.body.sl
-
-    query.addMarker(name, crop, sl, (err, data) => {
-        if(err)
+router.get('/getAllmarkers', async (req, res)=>{
+    query.getAllMarkers((err, data) => {
+        if (err) {
+            console.log("Error", err)
             res.json({success: false, error : err})
+        } else {
+            res.json({
+                success: true,
+                data: data.rows
+            })
+        }
+    })
+})
+router.post('/addMarker', async (req, res) => {
+    let id_user = req.body.id_user; 
+    let id_crop = req.body.id_crop;
+    let sanluong = req.body.sanluong;
+    let id_donvi = req.body.id_donvi;
+    let lat = req.body.lat;
+    let lng = req.body.lng;
+    let name = req.body.name;
+
+
+    query.addMarker(id_user, id_crop, sanluong, id_donvi, name, lat, lng, (err, data) => {
+        if(err){
+            console.log("Router err", err)
+            res.json({success: false, error : err})
+        }
         else
         {
-            //console.log(data)
+            res.json({
+                success: true,
+                data: data.rows[0]
+            })
+        }
+    })
+});
+router.post('/updateMarker', async (req, res) => {
+    let id = req.body.id; 
+    let id_crop = req.body.id_crop;
+    let sanluong = req.body.sanluong;
+    let name = req.body.name;
+
+
+    query.updateMarker(id, name, id_crop, sanluong, (err, data) => {
+        if(err){
+            console.log("Router err", err)
+            res.json({success: false, error : err})
+        }
+        else
+        {
             res.json({
                 success: true,
                 data: data.rows[0]
@@ -64,13 +103,7 @@ router.get('/getCrop', async (req, res)=>{
     query.getCrop(soil_id, (err, data) => {
         if (err) {
             res.json({success: false, error : err})
-<<<<<<< HEAD
-           console.log("Fail")
         } else {
-          console.log("OK")
-=======
-        } else {
->>>>>>> thangnd
             res.json({
                 success: true,
                 data: data.rows[0]
@@ -78,6 +111,7 @@ router.get('/getCrop', async (req, res)=>{
         }
     })
 })
+
 
 router.get('/getAllCrop', async (req, res)=>{
     query.getAllCrop((err, data) => {

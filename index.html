@@ -48,8 +48,6 @@
     <script src="plugins/leaflet-mapkey/L.Icon.Mapkey.js"></script>
     <title>Khuyến Nông</title>
     <style>
-
-
         .leaflet-popup-content {
             width: 100px;
             height: 60px;
@@ -61,22 +59,11 @@
     <div class="col-md-1"></div>
     <div class="my-container col-md-10">
         <div class="row my-navi-bar">
-            <div class="col-md-3" id="title">
-                Khuyến nông
+            <div class="col-md-6" id="title">
+                TẤC ĐẤT TẤC VÀNG
             </div>
 
-            <div class="col-md-6" id="seacrh-bar">
-                <div class="input-group">
-                    <input type="text" id="txtSearch" class="form-control" placeholder="Tìm kiếm địa điểm, loại đất..."
-                        autocomplete="off">
-                    <span class="input-group-btn">
-                        <button id="btnSearch" class="btn btn-warning" type="button">Tìm kiếm</button>
-                    </span>
-                </div>
-            </div>
-            <div id="" class="col-md-3" style="background-color: black">
 
-            </div>
         </div>
         <div>
             <div>
@@ -104,13 +91,12 @@
                                     <td style="padding-right: 10px; font-size: 15px">Loại cây</td>
                                     <td style="padding-bottom: 10px; font-size: 15px">
                                         <select id="ddCropsFilter">Chọn loại cây</select>
-                                        <!-- <input id="inputFilterCrop" type="text" class="form-control search" placeholder=""> -->
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-right: 10px; font-size: 15px">Sản lượng</td>
                                     <td>
-                                        <input class="input"  id="inputFilterSL" type="number" value="0" class="form-control search" placeholder="">
+                                        <input class="input" id="inputFilterSL" type="number" value="0" class="form-control search" placeholder="">
                                     </td>
                                 </tr>
 
@@ -122,49 +108,44 @@
                     </div>
                     <div class="col-md-12">
                         <label for="" id="label">Thông tin địa điểm</label>
-                            <div id="marker">
-                                <table>
-                                    <tr>
-                                        <td style="padding-right: 10px; font-size: 15px">Tên điểm</td>
-                                        <td style="padding-bottom: 10px; font-size: 15px">
-                                            <input class="input"  id="inputName" type="text" class="form-control search" placeholder="">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding-right: 10px; font-size: 15px">Loại cây</td>
-                                        <td style="padding-bottom: 10px; font-size: 15px">
-                                            <select id="ddCrops">Chọn loại cây</select>
-                                        </td>
-                                    </tr>
-                                   
-                                    <tr>
-                                        <td style="padding-right: 10px; font-size: 15px">Sản lượng</td>
-                                        <td>
-                                            <input class="input" type="number" value="0" id="inputSL" class="form-control search" placeholder="">
-                                        </td>
-                                    </tr>
-    
-                                </table>
-                                <div id="buttonContainer">
-                                    <button id='btnDelMarker' class='btn btn-danger'>Xóa </button>
-                                    <button id='btnAddMarker' class='btn btn-success'>Thêm </button>
-                                </div>
+                        <div id="marker">
+                            <table>
+                                <tr>
+                                    <td style="padding-right: 10px; font-size: 15px">Tên điểm</td>
+                                    <td style="padding-bottom: 10px; font-size: 15px">
+                                        <input class="input" id="inputName" type="text" class="form-control search" placeholder="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-right: 10px; font-size: 15px">Loại cây</td>
+                                    <td style="padding-bottom: 10px; font-size: 15px">
+                                        <select id="ddCrops">Chọn loại cây</select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding-right: 10px; font-size: 15px">Sản lượng</td>
+                                    <td>
+                                        <input class="input" type="number" value="0" id="inputSL" class="form-control search" placeholder="">
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div id="buttonContainer">
+                                <button id='btnDelMarker' class='btn btn-danger'>Xóa </button>
+                                <button id='btnAddMarker' class='btn btn-success'>Thêm </button>
+                                <button id='btnUpdateMarker' class='btn btn-success'>Sửa </button>
                             </div>
                         </div>
+                    </div>
                 </div>
                 <div id="map123" class="my-map col-md-12">
                 </div>
-
-
-
             </div>
         </div>
-
-        <div class="row">
-
-        </div>
+        <div class="row" />
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-1" />
 
     <script src="api.js"></script>
     <script src="index.js"></script>
