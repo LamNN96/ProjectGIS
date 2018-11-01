@@ -25,12 +25,22 @@ var icnMKBird;
 var icnEagleActive;
 var icnEagleInactive;
 var preMakerLatLng;
-
+var currentLayerGroup;
+var markerToCreate = {
+    id_user: "",
+    name: "",
+    lat: "",
+    lng: "",
+    id_crop: "",
+    sanluong: "",
+    don_vi: ""
+}
+var crops;
 $(document).ready(function () {
-    if(localStorage.getItem('login') == 'false')
+    if (localStorage.getItem('login') == 'false')
         window.location.href = '/'
     mymap = L.map('map123', { center: [22, 105], zoom: 7.5 });
-    
+
     function style(feature) {
         return {
             fillColor: getColor(feature.properties.domsoil),
@@ -55,7 +65,6 @@ $(document).ready(function () {
         "Voyaer": lyrVoyaer
     };
     getGeoJSON((data) => {
-        console.log(data)
         lyrGEO = L.geoJson(data, {
             style: style,
             onEachFeature: function (feature, layer) {
@@ -83,21 +92,7 @@ $(document).ready(function () {
     var marker;
     function onClickFeature(e) {
         ctlSidebar.show();
-        let properties = e.target.feature.properties;
-        let latlng = e.latlng;
-        console.log(latlng)
-        if (marker != null) { 
-            mymap.removeLayer(marker); 
-        }
-        marker = new L.Marker(latlng); 
-        marker.addTo(mymap);
-        getInfo(latlng.lat, latlng.lng, (data) => {
-            console.log(data)
-            document.getElementById("soilDetail").innerHTML = data.data.kieu;
-            document.getElementById("locationDetail").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
-        });
-
-        preMakerLatLng = latlng;
+        onMapClick(e);
     }
 
 
@@ -131,24 +126,78 @@ $(document).ready(function () {
     function onMapClick(e) {
         ctlSidebar.show();
         let latlng = e.latlng;
-        var crops = [];
-        if (marker != null) { 
-            mymap.removeLayer(marker); 
+        markerToCreate.lat = latlng.lat;
+        markerToCreate.lng = latlng.lng;
+        if (marker != null) {
+            mymap.removeLayer(marker);
         }
-        marker = new L.Marker(latlng); 
+        marker = new L.Marker(latlng);
         marker.addTo(mymap);
         getInfo(latlng.lat, latlng.lng, (data) => {
+            console.log(latlng)
             document.getElementById("soilDetail").innerHTML = data.data.kieu;
             document.getElementById("locationDetail").innerHTML = data.data.type_2 + " " + data.data.name_2 + ", " + data.data.name_1;
-            getCrop(data.data.domsoil, (cropsData)=>{
+            getCrop(data.data.domsoil, (cropsData) => {
                 document.getElementById("crops").innerHTML = cropsData.data.name;
             })
         });
 
     }
-    
-    mymap.on('click', onMapClick);
 
+    mymap.on('click', onMapClick);
+    currentLayerGroup = L.featureGroup();
+    currentLayerGroup.addTo(mymap);
+    getAllCrop((res) => {
+
+        crops = res.data;
+        console.log("crops", crops)
+        var ddCrops = document.getElementById("ddCrops");
+        var ddCropsFilter = document.getElementById("ddCropsFilter");
+        //mảng dữ liệu cho dropdown
+        for (var i = 0; i < crops.length; i++) {
+            var option = document.createElement("OPTION");
+
+            option.innerHTML = crops[i].name;
+
+            option.value = crops[i].id_crop;
+
+            ddCropsFilter.options.add(option);
+        }
+        for (var i = 0; i < crops.length; i++) {
+            var option = document.createElement("OPTION");
+
+            option.innerHTML = crops[i].name;
+
+            option.value = crops[i].id_crop;
+
+            ddCrops.options.add(option);
+        }
+        //hàm xử lý sự kiện click nút Lọc
+        $("#btnFilter").click(function () {
+            //lấy giá trị của dropdown
+            var id_crop = $("#ddCropsFilter").find(":selected")[0].value;
+            var sanLuong = $("#inputFilterSL").val();
+
+            //xóa layer cũ
+            currentLayerGroup.eachLayer(function (layer) {
+                layer.remove();
+            })
+            filter(id_crop, sanLuong, (res) => {
+
+                var markers = res.data;
+                markers.forEach(marker => {
+                    L.marker([marker.lat, marker.lng]).addTo(currentLayerGroup);
+                });
+            })
+
+        })
+    });
+
+    $("#btnAddMarker").click(function () {
+        console.log($("#inputName").val())
+        markerToCreate.name = $("#inputName").val();
+        console.log(markerToCreate)
+    })
 });
 
 function getColor(domsoil) {

@@ -1,10 +1,13 @@
 #my-container{
     padding: 0 5 0 5
 }
-
+.input{
+    font-size: 14px;
+    padding: 5px
+}
 #btnLocate{
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-left: 10px;
 }
 #btnFilter {
     font-size: 14px;
@@ -14,7 +17,7 @@
     padding-right: 20px;
 }
 
- td {
+td {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: 10px; font-size: 15px;
@@ -22,6 +25,15 @@
 
 #filter{
     margin-top: 20px
+}
+#ddCrops{
+    width: -webkit-fill-available;
+    height: 30px;
+}
+
+#ddCropsFilter{
+    width: -webkit-fill-available;
+    height: 30px;
 }
 #buttonContainer{
     margin-top: 10px;

@@ -16,10 +16,30 @@ function getCrop(soil_id, callback) {
         })
 }
 
+function getAllCrop(callback){
+    db.query(`SELECT * from crop`, (err, res) =>{
+        callback(err, res);
+    })
+}
+
 function login(username, password, callback) {
     db.query(`SELECT * from users where users.username like '${username}' and users.password like '${password}'`, (err, res) => {
         callback(err, res)
     })
 }
+function addMarker(name, crop, sl, callback) {
+    db.query(`SELECT * from users where users.username like '${username}' and users.password like '${password}'`, (err, res) => {
+        callback(err, res)
+    })
+}
+function filter(id_crop, sl, callback) {
+    db.query(`select * from marker where id_crop = ${id_crop} and sanluong > ${sl}`, (err, res) => {
+        callback(err, res)
+    })
+}
 
-module.exports = { getInfo, getCrop, login}
+
+
+
+
+module.exports = { getInfo, getCrop, login, getAllCrop, addMarker, filter}
