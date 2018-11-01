@@ -16,5 +16,11 @@ function getCrop(soil_id, callback) {
         })
 }
 
+function login(username, password, callback) {
+    db.query(`SELECT * from users where users.username like '${username}' and users.password like '${password}'`, (err, res) => {
+        console.log(err)
+        callback(err, res)
+    })
+}
 
-module.exports = { getInfo, getCrop }
+module.exports = { getInfo, getCrop, login}
