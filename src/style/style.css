@@ -1,8 +1,65 @@
 #my-container{
     padding: 0 5 0 5
 }
-
+.input{
+    font-size: 14px;
+    padding: 5px
+}
 #btnLocate{
     font-size: 20px;
+    margin-left: 10px;
+}
+#btnFilter {
+    font-size: 14px;
+    margin-top: 10px;
     margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px; font-size: 15px;
+}
+
+#filter{
+    margin-top: 20px
+}
+#ddCrops{
+    width: -webkit-fill-available;
+    height: 30px;
+}
+
+#ddCropsFilter{
+    width: -webkit-fill-available;
+    height: 30px;
+}
+#buttonContainer{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+}
+#label{
+    margin-top: 10px;
+    font-size: 16px; 
+}
+#marker{
+    margin-top: 20px
+}
+
+#btnAddMarker{
+    margin-left: 60px;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#btnDelMarker{
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
